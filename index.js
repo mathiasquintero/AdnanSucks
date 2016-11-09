@@ -3,21 +3,21 @@ var Botkit = require('botkit');
 var token = process.env.SLACK_TOKEN;
 
 var controller = Botkit.slackbot({
-  retry: Infinity,
-  debug: false
+    retry: Infinity,
+    debug: false
 });
 
 controller.spawn({
-  token: token
+    token: token
 }).startRTM(function (err, bot, payload) {
-  if (err) {
-    throw new Error(err);
-  }
-  console.log('Connected!');
+    if (err) {
+        throw new Error(err);
+    }
+    console.log('Connected!');
 });
 
 controller.on('bot_channel_join', function (bot, message) {
-  bot.reply(message, "Sup? I'm here now.");
+    bot.reply(message, "Sup? I'm here now.");
 });
 
 function simple(user) {
@@ -60,10 +60,10 @@ var modes = [simple, soMuch, seriously, haveI, levels, why, imagine, dream, math
 
 // Tells people they suck!
 controller.hears(["(.*)I can('?)t(.*)", "(.*)I won'?t(.*)", "(.*)sorry(.*)", "I am home", "no lunch", "I (.*) late", "(.*)shit(.*)", "(.*)not come(.*)"], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
-  var name = bot.api.users.info({ user: message.user }, function(error, result) {
-      if (error === null) {
-          var responseMessage = modes[Math.floor(Math.random() * modes.length)](result.user.name);
-          bot.reply(message, responseMessage);
-      }
-  });
+    var name = bot.api.users.info({ user: message.user }, function(error, result) {
+        if (error === null) {
+            var responseMessage = modes[Math.floor(Math.random() * modes.length)](result.user.name);
+            bot.reply(message, responseMessage);
+        }
+    });
 });
