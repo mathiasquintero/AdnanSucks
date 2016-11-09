@@ -25,7 +25,7 @@ function simple(user) {
 }
 
 function soMuch(user) {
-    return user + " sucks soooooooo much...";
+    return user + " sucks s" + Array(Math.floor(Math.random() * 20) + 1).join("o") + " much...";
 }
 
 function seriously(user) {
@@ -44,15 +44,26 @@ function why(user) {
     return "Tell me, " + user + ". Why do you suck so much?";
 }
 
-var modes = [simple, soMuch, seriously, haveI, levels, why];
+function imagine(user) {
+    return "Imagine what a beautiful world this would be, if " + user + " stoped sucking so much.";
+}
+
+function dream(user) {
+    return "I have a dream. That one day " + user + " won't suck \n\t- Martin Luther King";
+}
+
+function math(user) {
+    return user + "'s sucking values are inversely proportional to a linear function as it approaches zero. **BUUUURN**";
+}
+
+var modes = [simple, soMuch, seriously, haveI, levels, why, imagine, dream, math];
 
 // Tells people they suck!
 controller.hears(["(.*)I can('?)t(.*)", "(.*)I won'?t(.*)", "(.*)sorry(.*)", "I am home", "no lunch", "I (.*) late", "(.*)shit(.*)", "(.*)not come(.*)"], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
   var name = bot.api.users.info({ user: message.user }, function(error, result) {
       if (error === null) {
-          var responseMessage = modes[Math.floor(Math.random()*modes.length)](result.user.name);
+          var responseMessage = modes[Math.floor(Math.random() * modes.length)](result.user.name);
           bot.reply(message, responseMessage);
       }
   });
-
 });
